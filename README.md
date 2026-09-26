@@ -278,62 +278,10 @@ This makes it easy to understand and test the parking-control logic without requ
 17. Press a slot button again to simulate the vehicle leaving the parking space.
 
 ---
-Program
-~~~
-#include "main.h"
 
-#define TOTAL_SLOTS 4
+##  Output
+<img width="293" height="215" alt="image" src="https://github.com/user-attachments/assets/43fce0bf-61ea-4bbf-95ce-a1914240afae" />
 
-int main(void) { HAL_Init(); SystemClock_Config();
-
-MX_GPIO_Init();
-MX_TIM3_Init();
-
-HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-
-while (1)
-{
-    uint8_t slot1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2);
-    uint8_t slot2 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3);
-    uint8_t slot3 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4);
-    uint8_t slot4 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
-
-    int available = 0;
-
-    if (slot1 == GPIO_PIN_SET)
-        available++;
-
-    if (slot2 == GPIO_PIN_SET)
-        available++;
-
-    if (slot3 == GPIO_PIN_SET)
-        available++;
-
-    if (slot4 == GPIO_PIN_SET)
-        available++;
-
-    if (available > 0)
-    {
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0,
-                          GPIO_PIN_SET);   // Green LED
-
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1,
-                          GPIO_PIN_RESET); // Red LED
-    }
-    else
-    {
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0,
-                          GPIO_PIN_RESET);
-
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1,
-                          GPIO_PIN_SET);
-    }
-
-    HAL_Delay(100);
-}
-}
-~~~
-## Expected Output
 
 ### Initially – Both Slots Available
 
